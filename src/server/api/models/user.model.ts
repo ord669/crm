@@ -5,7 +5,6 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const userModel = {
-  getLatest,
   getAll,
   getById,
   deleteById,
@@ -25,12 +24,6 @@ async function create(
       lastName,
       email, // This is optional in your model, so it's fine to pass null
     },
-  });
-}
-
-async function getLatest() {
-  return await prisma.post.findFirst({
-    orderBy: { createdAt: "desc" },
   });
 }
 

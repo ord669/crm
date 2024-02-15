@@ -5,7 +5,6 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const postModel = {
-  getLatest,
   getAll,
   getById,
   deleteById,
@@ -21,12 +20,6 @@ async function create(postTxt: string) {
     data: {
       postTxt,
     },
-  });
-}
-
-async function getLatest() {
-  return await prisma.post.findFirst({
-    orderBy: { createdAt: "desc" },
   });
 }
 

@@ -18,10 +18,6 @@ export const postRouter = createTRPCRouter({
       return await postService.create(input.postTxt);
     }),
 
-  getLatest: publicProcedure.query(async () => {
-    return await postService.getLatest();
-  }),
-
   getAll: publicProcedure.query(async () => {
     return await postService.getAll();
   }),

@@ -5,8 +5,6 @@ import { CreatePost } from "@/app/_components/create-post";
 import { api } from "@/trpc/server";
 
 export default async function Home() {
-  const latestPost = await api.post.getLatest.query();
-
   const { userId } = auth();
 
   return (
