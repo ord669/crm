@@ -1,7 +1,7 @@
 // src/server/services/postService.ts
 
 import { contactModel } from "../models/contact.model";
-import { ContactCreateArgs } from "@/globals";
+import type { ContactCreateArgs } from "@/globals";
 
 export const contactService = {
   create,

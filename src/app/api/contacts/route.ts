@@ -1,6 +1,6 @@
 // src/app/api/users/route.ts
 
-import { ContactCreateArgs } from "@/globals";
+import type { ContactCreateArgs } from "@/globals";
 import { contactService } from "@/server/api/services/contact.service";
 import { NextRequest, NextResponse } from "next/server";
 
