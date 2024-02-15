@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
     provider = "prisma-client-js"
 }
@@ -10,8 +7,6 @@ datasource db {
   url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
-
-
 
 model Post {
     id        Int      @id @default(autoincrement())
@@ -23,40 +18,59 @@ model Post {
 }
 
 model User {
-    id        String   @id
-    firstName String
-    lastName  String
-    email     String?  @unique
-    contacts  Contact[]
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id               String       @id
+    firstName        String
+    lastName         String
+    email            String?      @unique
+    contacts         UserContact[]
+    assignedContacts Contact[]    @relation("UserAssignee")
+    createdAt        DateTime     @default(now())
+    updatedAt        DateTime     @updatedAt
 
-    @@index([firstName, lastName])
+    @@index([firstName, lastName], name: "idx_user_firstName_lastName")
 }
-
 
 model Contact {
-    id          Int       @id @default(autoincrement())
-    firstName   String
-    lastName    String?
-    phone       String
-    email       String?
-    language    String?
-    profilePic  String?
-    countryCode String?
-    status      String
-    assigneeId  Int
-    messages    Message[]
-    userId      String    // Changed from Int to String to match User.id
-    User        User      @relation(fields: [userId], references: [id])
-    createdAt   DateTime  @default(now())
-    updatedAt   DateTime  @updatedAt
+    id           Int          @id 
+    firstName    String
+    lastName     String?
+    phone        String
+    email        String?
+    language     String?
+    profilePic   String?
+    countryCode  String?
+    status       String?
+    assigneeId   String?      @map("assignedUserId")
+    assignee     User?        @relation("UserAssignee", fields: [assigneeId], references: [id])
+    messages     Message[]
+    users        UserContact[]
+    tags         ContactTag[] @relation("ContactToTag")
+    createdAt    DateTime     @default(now())
+    updatedAt    DateTime     @updatedAt
 
     @@index([phone], name: "idx_contact_phone")
-    @@index([userId], name: "idx_contact_userId") // Manually added index for userId
-    
+    @@index([assigneeId], name: "idx_contact_assigneeId")
 }
 
+model UserContact {
+    userId    String
+    contactId Int
+    User      User     @relation(fields: [userId], references: [id])
+    Contact   Contact  @relation(fields: [contactId], references: [id])
+
+    @@id([userId, contactId])
+    @@index([userId], name: "idx_usercontact_userId")
+    @@index([contactId], name: "idx_usercontact_contactId")
+}
+
+model ContactTag {
+    id        Int      @id @default(autoincrement())
+    tag       String
+    contacts  Contact[] @relation("ContactToTag")
+
+    @@index([tag], name: "idx_contacttag_tag")
+    @@unique([tag])
+}
 
 model Message {
     id               Int      @id @default(autoincrement())
@@ -73,6 +87,5 @@ model Message {
     updatedAt        DateTime @updatedAt
 
     @@index([messageId], name: "idx_message_messageId")
-    @@index([contactId], name: "idx_message_contactId") // Confirm indexing for foreign keys.
-
+    @@index([contactId], name: "idx_message_contactId")
 }
