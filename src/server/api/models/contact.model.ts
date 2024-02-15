@@ -11,7 +11,7 @@ export const contactModel = {
 
 async function create(contactPayload: ContactCreateArgs) {
   // Ensuring that assigneeId is handled correctly when undefined or null
-  const data: any = {
+  const data = {
     id: contactPayload.id,
     firstName: contactPayload.firstName,
     lastName: contactPayload.lastName,

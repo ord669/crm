@@ -2,32 +2,7 @@
 
 import { ContactCreateArgs } from "@/globals";
 import { contactService } from "@/server/api/services/contact.service";
-import { Contact } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-
-interface ContactPayload {
-  contact: {
-    id: number;
-    firstName: string;
-    lastName: string;
-    phone: string;
-    email: string;
-    language: string;
-    profilePic: string;
-    countryCode: string;
-    status: string;
-    tags: string[];
-    assignee: {
-      id: number;
-      firstName: string;
-      lastName: string;
-      email: string;
-    };
-    createdAt: number;
-  };
-  event_type: string;
-  event_id: string;
-}
 
 interface Payload {
   contact: ContactCreateArgs;
