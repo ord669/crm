@@ -2,7 +2,6 @@ import Link from "next/link";
 import { auth, SignInButton, SignOutButton, UserButton } from "@clerk/nextjs";
 
 import { CreatePost } from "@/app/_components/create-post";
-import { api } from "@/trpc/server";
 
 export default async function Home() {
   const { userId } = auth();
