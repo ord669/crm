@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
+import { postService } from "../services/post.service";
 
 export const postRouter = createTRPCRouter({
   hello: publicProcedure
@@ -12,21 +13,30 @@ export const postRouter = createTRPCRouter({
     }),
 
   create: publicProcedure
-    .input(z.object({ name: z.string().min(1) }))
-    .mutation(async ({ ctx, input }) => {
-      // simulate a slow db call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      return ctx.db.post.create({
-        data: {
-          name: input.name,
-        },
-      });
+    .input(z.object({ postTxt: z.string().min(1) }))
+    .mutation(async ({ input }) => {
+      return await postService.create(input.postTxt);
     }),
 
-  getLatest: publicProcedure.query(({ ctx }) => {
-    return ctx.db.post.findFirst({
-      orderBy: { createdAt: "desc" },
-    });
+  getLatest: publicProcedure.query(async () => {
+    return await postService.getLatest();
   }),
+
+  getAll: publicProcedure.query(async () => {
+    return await postService.getAll();
+  }),
+
+  getById: publicProcedure
+    .input(z.object({ id: z.number() }))
+    .query(async ({ input }) => {
+      // Call the standalone function with the provided ID
+      return await postService.getById(input.id);
+    }),
+
+  removeById: publicProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ input }) => {
+      // Call the standalone function with the provided ID
+      return await postService.deleteById(input.id);
+    }),
 });

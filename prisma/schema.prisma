@@ -2,23 +2,77 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider        = "prisma-client-js"
-    previewFeatures = ["driverAdapters"]
+    provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "mysql"
-    url      = env("DATABASE_URL")
-
-    // Do not use foreign keys (PlanetScale does not support them)
-    relationMode = "prisma"
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
+
+
 
 model Post {
     id        Int      @id @default(autoincrement())
-    name      String
+    postTxt   String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    @@index([name])
+    @@index([postTxt])
+}
+
+model User {
+    id        String   @id
+    firstName String
+    lastName  String
+    email     String?  @unique
+    contacts  Contact[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([firstName, lastName])
+}
+
+
+model Contact {
+    id          Int       @id @default(autoincrement())
+    firstName   String
+    lastName    String?
+    phone       String
+    email       String?
+    language    String?
+    profilePic  String?
+    countryCode String?
+    status      String
+    assigneeId  Int
+    messages    Message[]
+    userId      String    // Changed from Int to String to match User.id
+    User        User      @relation(fields: [userId], references: [id])
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+
+    @@index([phone], name: "idx_contact_phone")
+    @@index([userId], name: "idx_contact_userId") // Manually added index for userId
+    
+}
+
+
+model Message {
+    id               Int      @id @default(autoincrement())
+    messageId        String
+    channelMessageId String?
+    contactId        Int
+    channelId        Int
+    traffic          String
+    timestamp        BigInt
+    type             String
+    text             String?
+    Contact          Contact @relation(fields: [contactId], references: [id])
+    createdAt        DateTime @default(now())
+    updatedAt        DateTime @updatedAt
+
+    @@index([messageId], name: "idx_message_messageId")
+    @@index([contactId], name: "idx_message_contactId") // Confirm indexing for foreign keys.
+
 }
