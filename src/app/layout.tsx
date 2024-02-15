@@ -16,7 +16,7 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "P2P",
+  title: "Crm",
   description: "People 2 people marketing",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
