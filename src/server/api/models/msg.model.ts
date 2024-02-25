@@ -1,11 +1,13 @@
-import { PrismaClient } from "@prisma/client";
-import type { Message } from "@prisma/client";
+import { Message, PrismaClient } from "@prisma/client";
+
 import type { MessageCreateArgs } from "@/globals";
 
 const prisma = new PrismaClient();
 
 export const msgModel = {
   create,
+  deleteAllMsgs,
+  getMessagesByContactId,
 };
 
 async function create(msgPayload: MessageCreateArgs) {
@@ -32,4 +34,29 @@ async function create(msgPayload: MessageCreateArgs) {
       // If you need to store `messageTag` and `status`, consider adjusting your Prisma model or the handling here
     },
   });
+}
+
+async function deleteAllMsgs() {
+  // Delete all records from the Message model
+  await prisma.message.deleteMany({});
+  console.log("All messages have been deleted.");
+}
+
+async function getMessagesByContactId(
+  contactId: number,
+): Promise<Message[] | undefined> {
+  try {
+    const messages = await prisma.message.findMany({
+      where: {
+        contactId: contactId,
+      },
+      orderBy: {
+        createdAt: "asc", // or 'desc' if you want the newest messages first
+      },
+    });
+
+    return messages;
+  } catch (error) {
+    console.error("Error fetching messages for contact:", error);
+  }
 }

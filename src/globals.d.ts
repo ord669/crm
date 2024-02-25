@@ -1,4 +1,5 @@
 export interface ContactCreateArgs {
+  id: number;
   firstName: string;
   lastName?: string;
   phone: string;

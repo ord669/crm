@@ -6,11 +6,14 @@ const prisma = new PrismaClient();
 
 export const contactModel = {
   create,
+  checkContactExists,
 };
 
 async function create(contactPayload: ContactCreateArgs): Promise<Contact> {
+  console.log("contactPayload: ", contactPayload.id);
   return await prisma.contact.create({
     data: {
+      id: contactPayload.id,
       firstName: contactPayload.firstName,
       lastName: contactPayload.lastName,
       phone: contactPayload.phone,
@@ -19,6 +22,14 @@ async function create(contactPayload: ContactCreateArgs): Promise<Contact> {
       profilePic: contactPayload.profilePic,
       countryCode: contactPayload.countryCode,
       status: contactPayload.status,
+    },
+  });
+}
+
+async function checkContactExists(id: number) {
+  return await prisma.contact.findUnique({
+    where: {
+      id,
     },
   });
 }

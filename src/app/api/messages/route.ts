@@ -1,11 +1,13 @@
 // src/app/api/users/route.ts
 
-import type { MessageCreateArgs } from "@/globals";
+import type { ContactCreateArgs, MessageCreateArgs } from "@/globals";
+import { contactService } from "@/server/api/services/contact.service";
 import { msgService } from "@/server/api/services/msg.service";
 import { NextRequest, NextResponse } from "next/server";
 
 interface Payload {
   message: MessageCreateArgs;
+  contact: ContactCreateArgs;
 }
 
 // Handler for POST requests
@@ -15,6 +17,29 @@ export async function POST(req: NextRequest) {
     console.log("payload: ", payload);
     const msgData = payload.message; // Extract the user data from the payload
     console.log("msgData: ", msgData);
+
+    const existingContact = await contactService.checkContactExists(
+      msgData.contactId,
+    );
+
+    if (!existingContact) {
+      // Extract contact information from the payload
+      const contactInfo = payload.contact; // Assuming payload structure matches your example
+
+      const newContactData = {
+        id: contactInfo.id,
+        firstName: contactInfo.firstName,
+        lastName: contactInfo.lastName ?? "", // Use empty string or null if lastName is not provided
+        phone: contactInfo.phone,
+        email: contactInfo.email,
+        language: contactInfo.language,
+        profilePic: contactInfo.profilePic,
+        countryCode: contactInfo.countryCode,
+        status: contactInfo.status,
+      };
+
+      await contactService.create(newContactData);
+    }
 
     const message = await msgService.create(payload.message);
 
