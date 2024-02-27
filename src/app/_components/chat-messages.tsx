@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import type { ElementRef } from "react";
+import { useEffect, useState } from "react";
 
 import { ChatMessage } from "@/app/_components/chat-message";
 import type { Message } from "@prisma/client";
@@ -15,8 +14,6 @@ export const ChatMessages = ({
   messages = [],
   isLoading,
 }: ChatMessagesProps) => {
-  // const scrollRef = useRef<ElementRef<"div">>(null);
-
   const [fakeLoading, setFakeLoading] = useState(
     messages.length === 0 ? true : false,
   );
@@ -30,11 +27,6 @@ export const ChatMessages = ({
       clearTimeout(timeout);
     };
   }, []);
-
-  // useEffect(() => {
-  //   // eslint-disable-next-line @typescript-eslint/non-nullable-type-assertion-style
-  //   scrollRef.current!.scrollIntoView({ behavior: "smooth" });
-  // }, [messages.length]);
 
   return (
     <div className="flex-1 overflow-y-scroll pr-4">
@@ -51,7 +43,6 @@ export const ChatMessages = ({
         />
       ))}
       {isLoading && <ChatMessage role="system" isLoading />}
-      {/* <div ref={scrollRef} /> */}
     </div>
   );
 };
