@@ -42,7 +42,7 @@ export const ChatMessages = ({
           role={message.traffic}
         />
       ))}
-      {isLoading && <ChatMessage role="system" isLoading />}
+      {isLoading && <ChatMessage role="me" isLoading />}
     </div>
   );
 };
