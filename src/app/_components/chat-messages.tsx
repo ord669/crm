@@ -38,10 +38,11 @@ export const ChatMessages = ({
       {messages.map((message) => (
         <ChatMessage
           key={message.id}
-          content={message.text as string}
+          content={message.text!}
           role={message.traffic}
         />
       ))}
+
       {isLoading && <ChatMessage role="me" isLoading />}
     </div>
   );
