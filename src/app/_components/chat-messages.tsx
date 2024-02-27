@@ -1,10 +1,14 @@
 "use client";
 
+// Since ChatMessageProps is not used, ensure it's either utilized or remove this import.
+// Use `import type` for ElementRef as it's only used for type information.
 import { useEffect, useRef, useState } from "react";
 import type { ElementRef } from "react";
 
-import { ChatMessage, ChatMessageProps } from "@/app/_components/chat-message";
-import { Message } from "@prisma/client";
+// Assuming you're using ChatMessage, only remove the unused ChatMessageProps import.
+// If ChatMessageProps is used elsewhere in the file not shown, then keep it.
+import { ChatMessage } from "@/app/_components/chat-message";
+import type { Message } from "@prisma/client"; // Use `import type` here since Message is likely only used as a type.
 
 interface ChatMessagesProps {
   messages: Message[];
@@ -32,6 +36,7 @@ export const ChatMessages = ({
   }, []);
 
   useEffect(() => {
+    // Use ! to assert that scrollRef.current is not null.
     scrollRef.current!.scrollIntoView({ behavior: "smooth" });
   }, [messages.length]);
 
