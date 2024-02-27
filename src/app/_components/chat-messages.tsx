@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { ElementRef } from "react";
 
-import { ChatMessage } from "@/app/_components/chat-message";
-import type { Message } from "@prisma/client";
+import { ChatMessage, ChatMessageProps } from "@/app/_components/chat-message";
+import { Message } from "@prisma/client";
 
 interface ChatMessagesProps {
   messages: Message[];
@@ -14,6 +15,8 @@ export const ChatMessages = ({
   messages = [],
   isLoading,
 }: ChatMessagesProps) => {
+  const scrollRef = useRef<ElementRef<"div">>(null);
+
   const [fakeLoading, setFakeLoading] = useState(
     messages.length === 0 ? true : false,
   );
@@ -27,6 +30,10 @@ export const ChatMessages = ({
       clearTimeout(timeout);
     };
   }, []);
+
+  useEffect(() => {
+    scrollRef?.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages.length]);
 
   return (
     <div className="flex-1 overflow-y-scroll pr-4">
@@ -42,8 +49,8 @@ export const ChatMessages = ({
           role={message.traffic}
         />
       ))}
-
-      {isLoading && <ChatMessage role="me" isLoading />}
+      {isLoading && <ChatMessage role="system" isLoading />}
+      <div ref={scrollRef} />
     </div>
   );
 };
