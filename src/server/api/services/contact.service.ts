@@ -6,6 +6,8 @@ import type { ContactCreateArgs } from "@/globals";
 export const contactService = {
   create,
   checkContactExists,
+  getAll,
+  getById,
 };
 
 async function create(contact: ContactCreateArgs) {
@@ -25,4 +27,12 @@ async function checkContactExists(id: number) {
     console.log("err from contact service function create", err);
     throw err;
   }
+}
+
+async function getAll() {
+  return await contactModel.getAll();
+}
+
+async function getById(id: number) {
+  return await contactModel.getById(id);
 }

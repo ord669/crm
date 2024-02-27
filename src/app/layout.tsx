@@ -28,7 +28,7 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html className="h-full" suppressHydrationWarning lang="en">
+      <html className="max-h-screen	 " suppressHydrationWarning lang="en">
         <body className={cn("h-full bg-secondary", inter.className)}>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
             <ProModal />

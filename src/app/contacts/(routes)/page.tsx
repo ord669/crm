@@ -10,11 +10,11 @@ interface RootPageProps {
 
 const RootPage = async ({ searchParams }: RootPageProps) => {
   return (
-    <div className="RootPage flex h-[calc(100%-64px)]  ">
+    <div className="RootPage flex h-full  ">
       <div className="sidebar-div inset-y-0  h-full w-20 flex-col  md:flex ">
         <Sidebar isPro={false} />
       </div>
-      <div className=" w-full pb-6">
+      <div className=" table-container h-full w-full pb-2 pr-2 ">
         <DemoPage />
       </div>
     </div>

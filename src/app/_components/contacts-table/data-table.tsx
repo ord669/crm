@@ -35,6 +35,7 @@ import {
 import { Input } from "@/app/_components/ui/input";
 
 import { useState } from "react";
+import { Separator } from "../ui/separator";
 
 export function DataTable<TData, TValue>({
   columns,
@@ -69,10 +70,10 @@ export function DataTable<TData, TValue>({
     <div className="flex h-full flex-col  ">
       <div className="flex items-center gap-3 py-4">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter Phone..."
+          value={(table.getColumn("phone")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("phone")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -107,9 +108,9 @@ export function DataTable<TData, TValue>({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className=" h-full grow  rounded-md border-2 border-primary-foreground">
+      <div className="table-container h-full grow overflow-hidden rounded-md border-2 border-primary-foreground">
         <Table>
-          <TableHeader>
+          <TableHeader className="sticky	top-0  bg-background">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -149,7 +150,7 @@ export function DataTable<TData, TValue>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className="h-24  text-center"
                 >
                   No results.
                 </TableCell>

@@ -7,6 +7,8 @@ const prisma = new PrismaClient();
 export const contactModel = {
   create,
   checkContactExists,
+  getAll,
+  getById,
 };
 
 async function create(contactPayload: ContactCreateArgs): Promise<Contact> {
@@ -31,5 +33,17 @@ async function checkContactExists(id: number) {
     where: {
       id,
     },
+  });
+}
+
+async function getAll(): Promise<Contact[]> {
+  return await prisma.contact.findMany({
+    orderBy: { createdAt: "desc" },
+  });
+}
+
+async function getById(id: number): Promise<Contact | null> {
+  return await prisma.contact.findUnique({
+    where: { id },
   });
 }

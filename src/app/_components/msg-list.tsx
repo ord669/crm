@@ -1,39 +1,50 @@
 "use client";
 import { api } from "@/trpc/react";
 import React from "react";
+import { ChatHeader } from "./chat-header";
+import { ChatMessages } from "./chat-messages";
 import { Separator } from "./ui/separator";
 
-export default function MsgList() {
-  const contactId = 154298343; // Example contact ID, replace with dynamic data as needed.
-  const { data, isLoading, error } = api.msg.getMsgsById.useQuery({
-    id: contactId,
-  });
+interface contactProps {
+  contactId: number;
+}
+
+export default function MsgList({ contactId }: contactProps) {
+  // Fetching messages
+  const {
+    data: messagesData,
+    isLoading: messagesLoading,
+    error: messagesError,
+  } = api.msg.getMsgsById.useQuery({ id: contactId });
+
+  // Fetching contact information, renaming data, isLoading, and error to avoid conflict
+  const {
+    data: contactData,
+    isLoading: contactLoading,
+    error: contactError,
+  } = api.contact.getById.useQuery({ id: contactId });
 
   // Loading state
-  if (isLoading) {
+  if (messagesLoading) {
     return <div>Loading messages...</div>;
   }
 
   // Error state
-  if (error) {
-    return <div>Error loading messages: {error.message}</div>;
+  if (messagesError) {
+    return <div>Error loading messages: {messagesError.message}</div>;
   }
 
-  console.log("data: ", data);
-  if (!data) return;
+  if (!messagesData || !contactData)
+    return (
+      <>
+        <h3>hello</h3>
+      </>
+    );
   return (
-    <div className="w-full ">
-      {data.map((msg) => (
-        <div key={msg.id} className="  w-full ">
-          <div className="mt-2 flex items-center   gap-6  align-middle">
-            <h3 className="text-lg">
-              {msg.traffic === "outgoing" ? "me" : "him"}:
-            </h3>
-            <p className="text-sm">{msg.text}</p>
-          </div>
-          <Separator className="bg-primary" />
-        </div>
-      ))}
+    <div className="flex h-full flex-col space-y-2 p-4">
+      <ChatHeader contact={contactData} messages={messagesData} />
+
+      <ChatMessages isLoading={messagesLoading} messages={messagesData} />
     </div>
   );
 }

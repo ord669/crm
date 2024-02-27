@@ -1,17 +1,19 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal, ArrowUpDown } from "lucide-react";
+import { MoreHorizontal, ArrowUpDown, AlignJustify } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 import { Checkbox } from "@/app/_components/ui/checkbox";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Payment = {
+export type ContactView = {
   id: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
+  firstName: string;
+  lastName?: string;
+  phone: string;
+  email?: string;
 };
 
 import { Button } from "@/app/_components/ui/button";
@@ -24,7 +26,7 @@ import {
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<ContactView>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -48,8 +50,16 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "firstName",
+    header: "First Name",
+  },
+  {
+    accessorKey: "lastName",
+    header: "Last Name",
+  },
+  {
+    accessorKey: "phone",
+    header: "Phone Number",
   },
   {
     accessorKey: "email",
@@ -65,23 +75,24 @@ export const columns: ColumnDef<Payment>[] = [
       );
     },
   },
-  {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
+  // {
+  //   accessorKey: "amount",
+  //   header: () => <div className="text-right">Amount</div>,
+  //   cell: ({ row }) => {
+  //     const amount = parseFloat(row.getValue("amount"));
+  //     const formatted = new Intl.NumberFormat("en-US", {
+  //       style: "currency",
+  //       currency: "USD",
+  //     }).format(amount);
 
-      return <div className="text-right font-medium">{formatted}</div>;
-    },
-  },
+  //     return <div className="text-right font-medium">{formatted}</div>;
+  //   },
+  // },
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const contact = row.original;
+      const router = useRouter();
 
       return (
         <DropdownMenu>
@@ -94,13 +105,16 @@ export const columns: ColumnDef<Payment>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(contact.phone)}
             >
-              Copy payment ID
+              Copy Contact Phone
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => router.push(`/contacts/${contact.id}`)}
+            >
+              View Contact Messages
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
