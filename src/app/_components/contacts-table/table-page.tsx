@@ -130,7 +130,6 @@ import { DataTable } from "./data-table";
 // }
 
 export default function DemoPage() {
-  const contactId = 154298343; // Example contact ID, replace with dynamic data as needed.
   const { data, isLoading, error } = api.contact.getAll.useQuery();
 
   // Loading state

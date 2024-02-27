@@ -9,11 +9,12 @@ import { Checkbox } from "@/app/_components/ui/checkbox";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type ContactView = {
-  id: string;
+  id: number;
   firstName: string;
-  lastName?: string;
+  lastName?: string | null;
   phone: string;
-  email?: string;
+  email?: string | null;
+  // Include other properties as needed, allowing null where appropriate
 };
 
 import { Button } from "@/app/_components/ui/button";
