@@ -1,6 +1,7 @@
 "use client";
 
-import { ElementRef, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { ElementRef } from "react";
 
 import { ChatMessage, ChatMessageProps } from "@/app/_components/chat-message";
 import { Message } from "@prisma/client";
@@ -31,7 +32,7 @@ export const ChatMessages = ({
   }, []);
 
   useEffect(() => {
-    scrollRef?.current?.scrollIntoView({ behavior: "smooth" });
+    scrollRef.current!.scrollIntoView({ behavior: "smooth" });
   }, [messages.length]);
 
   return (
