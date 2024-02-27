@@ -42,8 +42,14 @@ async function getAll(): Promise<Contact[]> {
   });
 }
 
-async function getById(id: number): Promise<Contact | null> {
-  return await prisma.contact.findUnique({
+async function getById(id: number): Promise<Contact> {
+  const contact = await prisma.contact.findUnique({
     where: { id },
   });
+
+  if (!contact) {
+    throw new Error(`Contact with ID ${id} not found.`);
+  }
+
+  return contact;
 }

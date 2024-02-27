@@ -31,11 +31,23 @@ export const ChatMessage = ({
       return;
     }
 
-    navigator.clipboard.writeText(content);
-    toast({
-      description: "Message copied to clipboard.",
-      duration: 3000,
-    });
+    navigator.clipboard
+      .writeText(content)
+      .then(() => {
+        toast({
+          description: "Message copied to clipboard.",
+          duration: 3000,
+        });
+      })
+      .catch((error) => {
+        console.error("Copy to clipboard failed:", error);
+        // Optionally, you could use the toast to show an error message.
+        // toast({
+        //   description: "Failed to copy message to clipboard.",
+        //   status: "error",
+        //   duration: 3000,
+        // });
+      });
   };
 
   return (

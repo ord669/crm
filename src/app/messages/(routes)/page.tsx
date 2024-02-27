@@ -20,7 +20,7 @@ const RootPage = async ({ searchParams }: RootPageProps) => {
       </div>
       <div className=" w-full pb-6">
         {/* <DemoPage /> */}
-        <MsgList />
+        {/* <MsgList /> */}
       </div>
     </div>
   );

@@ -2,7 +2,6 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal, ArrowUpDown, AlignJustify } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 import { Checkbox } from "@/app/_components/ui/checkbox";
 
@@ -26,6 +25,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
+import Link from "next/link";
 
 export const columns: ColumnDef<ContactView>[] = [
   {
@@ -93,7 +93,6 @@ export const columns: ColumnDef<ContactView>[] = [
     id: "actions",
     cell: ({ row }) => {
       const contact = row.original;
-      const router = useRouter();
 
       return (
         <DropdownMenu>
@@ -111,10 +110,12 @@ export const columns: ColumnDef<ContactView>[] = [
               Copy Contact Phone
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() => router.push(`/contacts/${contact.id}`)}
-            >
-              View Contact Messages
+            <DropdownMenuItem>
+              <Link href={`/contacts/${contact.id}`} legacyBehavior>
+                <a style={{ display: "block", width: "100%" }}>
+                  View Contact Messages
+                </a>
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
