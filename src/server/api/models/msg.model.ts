@@ -8,6 +8,7 @@ export const msgModel = {
   create,
   deleteAllMsgs,
   getMessagesByContactId,
+  getAll,
 };
 
 async function create(msgPayload: MessageCreateArgs) {
@@ -59,4 +60,10 @@ async function getMessagesByContactId(
   } catch (error) {
     console.error("Error fetching messages for contact:", error);
   }
+}
+
+async function getAll() {
+  return await prisma.message.findMany({
+    orderBy: { createdAt: "desc" },
+  });
 }

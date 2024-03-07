@@ -27,4 +27,8 @@ export const msgsRouter = createTRPCRouter({
       // Call the standalone function with the provided ID
       return await msgService.getMessagesByContactId(input.id);
     }),
+
+  getAll: publicProcedure.query(async () => {
+    return await msgService.getAll();
+  }),
 });

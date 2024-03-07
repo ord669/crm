@@ -11,7 +11,6 @@ export const contactService = {
 };
 
 async function create(contact: ContactCreateArgs) {
-  console.log("contact from service: ");
   try {
     return await contactModel.create(contact);
   } catch (err) {
@@ -20,11 +19,10 @@ async function create(contact: ContactCreateArgs) {
   }
 }
 async function checkContactExists(id: number) {
-  console.log("contact from service: ");
   try {
     return await contactModel.checkContactExists(id);
   } catch (err) {
-    console.log("err from contact service function create", err);
+    console.log("err from contact service function checkContactExists", err);
     throw err;
   }
 }
