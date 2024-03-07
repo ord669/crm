@@ -1,11 +1,7 @@
-import DemoPage from "@/app/_components/contacts-table/table-page";
-import MsgList from "@/app/_components/msg-list";
 import { Sidebar } from "@/app/_components/sidebar";
 import { msgService } from "@/server/api/services/msg.service";
-import { api } from "@/trpc/react";
+
 import { Message } from "@prisma/client";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 interface RootPageProps {
   searchParams: {
