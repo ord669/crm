@@ -34,6 +34,7 @@ export default function RootLayout({
             <ProModal />
             <TRPCReactProvider>
               <ProModal />
+
               {children}
               <Toaster />
             </TRPCReactProvider>{" "}
