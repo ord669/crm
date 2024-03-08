@@ -13,6 +13,7 @@ import ReactFlow, {
   EdgeChange, // Import EdgeChange type
   Connection, // Make sure to import Connection type
 } from "reactflow";
+import CustomEdge from "./CustomEdge";
 
 import "reactflow/dist/style.css";
 import TextUpdaterNode from "./template";
@@ -30,15 +31,29 @@ const initialNodes: CustomNode[] = [
     position: { x: 0, y: 0 },
     data: { value: 123 },
   },
+  {
+    id: "node-2",
+    type: "textUpdater",
+    position: { x: 450, y: 450 },
+    data: { value: 1234 },
+  },
 ];
 
 const nodeTypes = { textUpdater: TextUpdaterNode };
-const initialEdges: Edge[] = [];
 
 export default function WorkFlow() {
   const [nodes, setNodes] = useState<CustomNode[]>(initialNodes);
-  const [edges, setEdges] = useState<Edge[]>(initialEdges);
+  console.log("nodes: ", nodes);
+  const [edges, setEdges] = useState<Edge[]>([]);
+  console.log("edges: ", edges);
+  const [days, setDays] = useState(0);
+  console.log("days: ", days);
 
+  const edgeTypes = {
+    "custom-edge": (edgeProps: any) => (
+      <CustomEdge {...edgeProps} days={days} setDays={setDays} />
+    ),
+  };
   const onNodesChange = useCallback(
     (changes: NodeChange[]) =>
       setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -54,8 +69,11 @@ export default function WorkFlow() {
 
   // Correctly annotate the type for the connection parameter as Connection
   const onConnect = useCallback(
-    (connection: Connection) => setEdges((eds) => addEdge(connection, eds)),
-    [],
+    (connection: Connection) => {
+      const edge = { ...connection, type: "custom-edge" };
+      setEdges((eds) => addEdge(edge, eds));
+    },
+    [setEdges],
   );
 
   return (
@@ -67,9 +85,9 @@ export default function WorkFlow() {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
       >
-        <Controls />
-        <MiniMap />
+        <MiniMap nodeStrokeWidth={3} zoomable pannable />
         <Background gap={12} size={1} />
       </ReactFlow>
     </div>
