@@ -7,18 +7,24 @@ import "react-time-picker/dist/TimePicker.css";
 import "@/app/lib/CustomTimePicker.css";
 import { Label } from "../ui/label";
 
-const handleStyle = { left: 10 };
-
-export default function TextUpdaterNode() {
+interface TextUpdaterNodeProps {
+  time?: string;
+  setTime?: (time: string) => void;
+  // Include other props as needed, for example:
+  // nodeProps: YourTypeHere; // Define a type for this if you have other props
+}
+export default function TextUpdaterNode({
+  time,
+  setTime,
+}: TextUpdaterNodeProps) {
   const onChange = useCallback((evt: React.ChangeEvent<HTMLInputElement>) => {
     console.log(evt.target.value);
   }, []);
 
-  const [time, setTime] = useState("10:00");
-  console.log("time: ", time);
   const handleTimeChange = (value: string | null) => {
+    console.log("value: ", value);
     if (value !== null) {
-      setTime(value);
+      if (setTime) setTime(value);
     } else {
     }
   };

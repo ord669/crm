@@ -1,10 +1,5 @@
 "use client";
-import {
-  BaseEdge,
-  EdgeLabelRenderer,
-  getStraightPath,
-  useReactFlow,
-} from "reactflow";
+import { BaseEdge, EdgeLabelRenderer, getStraightPath } from "reactflow";
 import { Label } from "../ui/label";
 import {
   Select,
@@ -13,16 +8,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/app/_components/ui/select";
-import { useState } from "react";
 
-interface CustomEdgeProps {
+export interface CustomEdgeProps {
   id: string;
   sourceX: number;
   sourceY: number;
   targetX: number;
   targetY: number;
-  days: number; // Add days prop
-  setDays: (days: number) => void; // Add setDays function prop
+  days: number;
+  setDays: (days: number) => void;
+  setTemplate: (template: number) => void;
 }
 
 export default function CustomEdge({
@@ -33,6 +28,7 @@ export default function CustomEdge({
   targetY,
   days,
   setDays,
+  setTemplate,
 }: CustomEdgeProps) {
   const [edgePath, labelX, labelY] = getStraightPath({
     sourceX,

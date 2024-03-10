@@ -1,8 +1,42 @@
 /* CustomTimePicker.css */
 .my-time-picker .react-time-picker__wrapper {
-  @apply border-2  border-primary;
+  @apply border-2 border-primary;
 }
 
 .my-time-picker .react-time-picker__inputGroup {
   @apply p-2 text-right;
+}
+
+.react-flow__panel {
+  /* Directly applying Tailwind utilities via @apply */
+  @apply flex h-10 w-20 cursor-pointer flex-col items-center justify-center rounded-lg bg-white p-[5px_10px] text-black;
+
+  /* Enhanced box-shadow for a more button-like appearance */
+  box-shadow:
+    rgba(0, 0, 0, 0.2) 0px 4px 6px -1px,
+    rgba(0, 0, 0, 0.1) 0px 2px 4px -2px;
+
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease; /* Ensure smooth transformation */
+}
+
+.react-flow__panel:hover {
+  /* Slightly change the background color and shadow for a subtle effect */
+  background-color: #000000; /* Darker background on hover */
+  color: #ffffff;
+
+  box-shadow:
+    rgba(0, 0, 0, 0.25) 0px 5px 15px -3px,
+    rgba(0, 0, 0, 0.15) 0px 3px 6px -4px;
+}
+
+.react-flow__panel:active {
+  /* Subtle "pressed" effect on click */
+  transform: scale(0.95);
+  transform-origin: center; /* Ensure scaling originates from the center */
+  box-shadow:
+    rgba(0, 0, 0, 0.2) 0px 2px 3px -1px,
+    rgba(0, 0, 0, 0.1) 0px 1px 2px -2px; /* Less pronounced shadow */
 }

@@ -3,6 +3,7 @@ import { createTRPCRouter } from "@/server/api/trpc";
 import { contactRouter } from "./routers/contact";
 import { msgsRouter } from "./routers/msg";
 import { templateRouter } from "./routers/template";
+import { cronRouter } from "./routers/cron";
 
 /**
  * This is the primary router for your server.
@@ -14,6 +15,7 @@ export const appRouter = createTRPCRouter({
   msg: msgsRouter,
   contact: contactRouter,
   template: templateRouter,
+  cron: cronRouter,
 });
 
 // export type definition of API
